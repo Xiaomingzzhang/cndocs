@@ -29,3 +29,5 @@ deploydocs(;
     repo="github.com/Xiaomingzzhang/InvariantManifolds.jl",
     devbranch = "master"
 )
+
+Base.Filesystem.mv("E:\\InvariantManifolds\\cndocs\\build","E:\\InvariantManifolds\\cndocs\\docs")
