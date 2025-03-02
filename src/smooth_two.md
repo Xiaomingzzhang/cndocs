@@ -86,7 +86,7 @@ f(X)=\varphi\circ\Lambda\circ\varphi^{-1}(X)
 其中 $\varphi(x,y,z)=(x,y,z-\alpha x^2-\beta y^2)$ 是一个非线性映射, $\Lambda$ 是一个对角矩阵, 其对角元可用来控制映射 $f$ 在原点附近的 Jacobi 矩阵. 我们直接给出计算其不变流形的代码:
 ```@example nonlinearmap
 using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
-Λ = SDiagonal(SA[2.1, 6.3, 0.6])
+const Λ = SDiagonal(SA[2.1, 6.3, 0.6])
 φ(x, p)= SA[x[1],x[2],x[3]-p[1]*x[1]^2-p[2]*x[2]^2]
 iφ(x, p)= SA[x[1],x[2],x[3]+p[1]*x[1]^2+p[2]*x[2]^2]
 f(x,p) = φ(Λ*iφ(x, p),p)

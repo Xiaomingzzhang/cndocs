@@ -30,4 +30,4 @@ deploydocs(;
     devbranch = "master"
 )
 
-Base.Filesystem.mv("E:\\InvariantManifolds\\cndocs\\build","E:\\InvariantManifolds\\cndocs\\docs")
+Base.Filesystem.rename("E:\\InvariantManifolds\\cndocs\\build","E:\\InvariantManifolds\\cndocs\\docs",force=true)

@@ -1004,7 +1004,7 @@ weakdeps = ["Random", "RecipesBase", "Statistics"]
 deps = ["DataInterpolations", "LinearAlgebra", "NearestNeighbors", "OrdinaryDiffEq", "StaticArrays"]
 path = "E:\\InvariantManifolds"
 uuid = "8e6e46ff-12cc-43ef-8840-ba5cab270546"
-version = "1.0.0"
+version = "0.1.0"
 
 [[deps.InverseFunctions]]
 git-tree-sha1 = "a779299d77cd080bf77b97535acecd73e1c5e5cb"
