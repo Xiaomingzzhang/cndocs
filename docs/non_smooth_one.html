@@ -64,10 +64,11 @@ dsmin: 0.0001</code><br/><code class="language-julia-repl hljs" style="display:b
  [0.005734754364803036, -0.08277833328298333]
  [0.005773502705017105, -0.08272353485473313]</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; manifold = growmanifold(prob, segment, 8)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">Non-smooth one-dimensional manifold</span></span>
 <span class="sgr36">Curves number: </span>30
-<span class="sgr36">Points number: </span>168633
-<span class="sgr36">Flaw points number: </span>10
+<span class="sgr36">Points number: </span>168647
+<span class="sgr36">Flaw points number: </span>12
 <span class="sgr36">Distance failed points number: </span>0
-<span class="sgr36">Curvature failed points number: </span>10</code></pre><p>注意到, <code>manifold.data</code> 的数据类型是 <code>Vector{Vector{S}}</code>, 其中 <code>S</code> 是插值函数. 所以绘制结果需要使用如下函数:</p><pre><code class="language-julia hljs">using CairoMakie
+<span class="sgr36">Curvature failed points number: </span>12
+<span class="sgr36">Max dα in Flaw Points: </span>6.252268416053401e-5</code></pre><p>注意到, <code>manifold.data</code> 的数据类型是 <code>Vector{Vector{S}}</code>, 其中 <code>S</code> 是插值函数. 所以绘制结果需要使用如下函数:</p><pre><code class="language-julia hljs">using CairoMakie
 function manifold_plot(data)
     fig = Figure()
     axes = Axis(fig[1,1])
@@ -79,7 +80,7 @@ function manifold_plot(data)
     end
     fig
 end
-manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-dbbaa3e9.png" alt="Example block output"/><h2 id="碰撞系统"><a class="docs-heading-anchor" href="#碰撞系统">碰撞系统</a><a id="碰撞系统-1"></a><a class="docs-heading-anchor-permalink" href="#碰撞系统" title="Permalink"></a></h2><p>考虑如下的受到激励的倒摆方程:</p><p class="math-container">\[\begin{aligned}
+manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-98c5a967.png" alt="Example block output"/><h2 id="碰撞系统"><a class="docs-heading-anchor" href="#碰撞系统">碰撞系统</a><a id="碰撞系统-1"></a><a class="docs-heading-anchor-permalink" href="#碰撞系统" title="Permalink"></a></h2><p>考虑如下的受到激励的倒摆方程:</p><p class="math-container">\[\begin{aligned}
 \dot{x}&amp;= y,\\
 \dot{y}&amp;= \sin(x) - \epsilon \cos(2\pi t),
 \end{aligned}\]</p><p>假设倒摆两边存在墙壁: 当 <span>$x=\xi$</span> 或者 <span>$x=-\xi$</span> 时, 有 <span>$y\rightarrow - ry$</span>. 同样地, 需要先构建非光滑矢量场</p><pre><code class="language-julia hljs">f(x, p, t) = SA[x[2], sin(x[1])-p[1]*cos(2 * pi * t)]
@@ -128,10 +129,11 @@ dsmin: 0.0001</code><br/><code class="language-julia-repl hljs" style="display:b
  [0.011964527002091453, 0.007023600034653958]
  [0.012011983907242969, 0.007071056791406564]</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; manifold = growmanifold(prob, segment, 11)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">Non-smooth one-dimensional manifold</span></span>
 <span class="sgr36">Curves number: </span>38
-<span class="sgr36">Points number: </span>98311
-<span class="sgr36">Flaw points number: </span>15
+<span class="sgr36">Points number: </span>98315
+<span class="sgr36">Flaw points number: </span>16
 <span class="sgr36">Distance failed points number: </span>0
-<span class="sgr36">Curvature failed points number: </span>15</code></pre><p>最后绘制结果: </p><pre><code class="language-julia hljs">manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-8def44cb.png" alt="Example block output"/><h2 id="分段光滑与碰撞的组合的-ODE-系统"><a class="docs-heading-anchor" href="#分段光滑与碰撞的组合的-ODE-系统">分段光滑与碰撞的组合的 ODE 系统</a><a id="分段光滑与碰撞的组合的-ODE-系统-1"></a><a class="docs-heading-anchor-permalink" href="#分段光滑与碰撞的组合的-ODE-系统" title="Permalink"></a></h2><p>现在考虑同时存在分段光滑与碰撞的 ODE 系统:</p><p class="math-container">\[\begin{aligned}
+<span class="sgr36">Curvature failed points number: </span>16
+<span class="sgr36">Max dα in Flaw Points: </span>0.00012273369907577316</code></pre><p>最后绘制结果: </p><pre><code class="language-julia hljs">manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-4e66bdc0.png" alt="Example block output"/><h2 id="分段光滑与碰撞的组合的-ODE-系统"><a class="docs-heading-anchor" href="#分段光滑与碰撞的组合的-ODE-系统">分段光滑与碰撞的组合的 ODE 系统</a><a id="分段光滑与碰撞的组合的-ODE-系统-1"></a><a class="docs-heading-anchor-permalink" href="#分段光滑与碰撞的组合的-ODE-系统" title="Permalink"></a></h2><p>现在考虑同时存在分段光滑与碰撞的 ODE 系统:</p><p class="math-container">\[\begin{aligned}
 \dot{x}&amp;=y,\\
 \dot{y}&amp;=f(x) + \epsilon \sin(2\pi t),
 \end{aligned}\]</p><p>其中</p><p class="math-container">\[f(x) =
@@ -150,7 +152,7 @@ dom2(x, p, t) = x[1] &lt; -p[4]
 impact_rule(x, p, t) = SA[x[1], -p[5]*x[2]]
 id(x,p,t) = x
 
-vectorfield = PiecewiseImpactV((f1, f2), (dom1, dom2), (hyper1, hyper2), (impact_rule, id), [1])</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PiecewiseImpactV{Tuple{typeof(Main.f1), typeof(Main.f2)}, Tuple{typeof(Main.hyper1), typeof(Main.hyper2)}, Tuple{typeof(Main.impact_rule), typeof(Main.id)}, Tuple{typeof(Main.dom1), typeof(Main.dom2)}}((Main.f1, Main.f2), (Main.dom1, Main.dom2), (Main.hyper1, Main.hyper2), (Main.impact_rule, Main.id), [1], 0)</code></pre><p>传递给 <code>PiecewiseImpactV</code> 这个结构体的参数分别为: 矢量场, 它们所在的区域, 以及分割这些区域的超平面, 作用在超平面上的规则, 以及具有碰撞效应的那些规则列表. 更多细节可参考 <a href="api.html#InvariantManifolds.PiecewiseImpactV"><code>PiecewiseImpactV</code></a>.</p><p>接下来我们将求解时间周期映射的关键信息封装到另外一个结构体 <a href="api.html#InvariantManifolds.NSSetUp"><code>NSSetUp</code></a> 中:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; setup = setmap(vectorfield, (0.0, 1.0), Tsit5(), abstol=1e-8)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36">NSSetUp:</span>
+vectorfield = PiecewiseImpactV((f1, f2), (dom1, dom2), (hyper1, hyper2), (impact_rule, id), [1])</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PiecewiseImpactV{Tuple{typeof(Main.f1), typeof(Main.f2)}, Tuple{typeof(Main.hyper1), typeof(Main.hyper2)}, Tuple{typeof(Main.impact_rule), typeof(Main.id)}, Tuple{typeof(Main.dom1), typeof(Main.dom2)}}((Main.f1, Main.f2), (Main.dom1, Main.dom2), (Main.hyper1, Main.hyper2), (Main.impact_rule, Main.id), [1], 0)</code></pre><p>传递给 <code>PiecewiseImpactV</code> 这个结构体的参数分别为: 矢量场, 它们所在的区域, 以及分割这些区域的超平面, 作用在超平面上的规则, 以及具有碰撞效应的那些规则列表. 更多细节可参考 <a href="api.html#InvariantManifolds.PiecewiseImpactV"><code>PiecewiseImpactV</code></a>.</p><p>接下来我们将求解时间周期映射的关键信息封装到另外一个结构体 <a href="api.html#InvariantManifolds.NSSetUp"><code>NSSetUp</code></a> 中:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; setup = setmap(vectorfield, (0.0, 1.0), Tsit5(), abstol=1e-8, reltol=1e-8)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36">NSSetUp:</span>
 f: PiecewiseImpactV{Tuple{typeof(Main.f1), typeof(Main.f2)}, Tuple{typeof(Main.hyper1), typeof(Main.hyper2)}, Tuple{typeof(Main.impact_rule), typeof(Main.id)}, Tuple{typeof(Main.dom1), typeof(Main.dom2)}}((Main.f1, Main.f2), (Main.dom1, Main.dom2), (Main.hyper1, Main.hyper2), (Main.impact_rule, Main.id), [1], 0)
 timespan: (0.0, 1.0)</code></pre><p>其中函数 <a href="api.html#InvariantManifolds.setmap-Union{Tuple{T}, Tuple{PiecewiseV, Tuple{T, T}, Any}} where T"><code>setmap</code></a> 用于封装时间映射的计算信息. 现在我们已经定义好求解时间周期映射的一切了.</p><p>接下来为了生成局部流形. 我们同样需要定位鞍点以及其不稳定特征向量. 取定参数:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; para = [2, 5, 0.6, 2, 0.98]</code><code class="nohighlight hljs ansi" style="display:block;">5-element Vector{Float64}:
  2.0
@@ -192,10 +194,11 @@ dsmin: 0.0001</code><br/><code class="language-julia-repl hljs" style="display:b
  [0.005734754364803036, -0.08277833328298333]
  [0.005773502705017105, -0.08272353485473313]</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; manifold = growmanifold(prob, segment, 9)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">Non-smooth one-dimensional manifold</span></span>
 <span class="sgr36">Curves number: </span>52
-<span class="sgr36">Points number: </span>346533
-<span class="sgr36">Flaw points number: </span>13
+<span class="sgr36">Points number: </span>346504
+<span class="sgr36">Flaw points number: </span>5
 <span class="sgr36">Distance failed points number: </span>0
-<span class="sgr36">Curvature failed points number: </span>13</code></pre><p>注意到, <code>manifold.data</code> 的数据类型是 <code>Vector{Vector{S}}</code>, 其中 <code>S</code> 是插值函数. 所以绘制结果需要使用如下函数:</p><pre><code class="language-julia hljs">using CairoMakie
+<span class="sgr36">Curvature failed points number: </span>5
+<span class="sgr36">Max dα in Flaw Points: </span>1.1689368984276873e-5</code></pre><p>注意到, <code>manifold.data</code> 的数据类型是 <code>Vector{Vector{S}}</code>, 其中 <code>S</code> 是插值函数. 所以绘制结果需要使用如下函数:</p><pre><code class="language-julia hljs">using CairoMakie
 function manifold_plot(data)
     fig = Figure()
     axes = Axis(fig[1,1])
@@ -207,4 +210,4 @@ function manifold_plot(data)
     end
     fig
 end
-manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-ce4e251e.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="smooth_two.html">« 光滑两维流形</a><a class="docs-footer-nextpage" href="non_smooth_two.html">非光滑两维流形 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Sunday 2 March 2025 12:02">Sunday 2 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+manifold_plot(manifold.data)</code></pre><img src="non_smooth_one-080348b3.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="smooth_two.html">« 光滑两维流形</a><a class="docs-footer-nextpage" href="non_smooth_two.html">非光滑两维流形 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Thursday 6 March 2025 11:00">Thursday 6 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

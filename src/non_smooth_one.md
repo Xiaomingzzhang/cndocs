@@ -227,7 +227,7 @@ vectorfield = PiecewiseImpactV((f1, f2), (dom1, dom2), (hyper1, hyper2), (impact
 接下来我们将求解时间周期映射的关键信息封装到另外一个结构体 [`NSSetUp`](@ref) 中:
 
 ```@repl piecewiseimpact
-setup = setmap(vectorfield, (0.0, 1.0), Tsit5(), abstol=1e-8)
+setup = setmap(vectorfield, (0.0, 1.0), Tsit5(), abstol=1e-8, reltol=1e-8)
 ```
 其中函数 [`setmap`](@ref) 用于封装时间映射的计算信息. 现在我们已经定义好求解时间周期映射的一切了.
 

@@ -2,7 +2,7 @@
 
 julia_version = "1.11.3"
 manifest_format = "2.0"
-project_hash = "6e2668a27d1cd8d6f8b5968579fd91f6246d1a7e"
+project_hash = "c68979a9f4adec6c86d977cac7bc1aceb759fd8a"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "fb97701c117c8162e84dfcf80215caa904aef44f"
@@ -1004,7 +1004,7 @@ weakdeps = ["Random", "RecipesBase", "Statistics"]
 deps = ["DataInterpolations", "LinearAlgebra", "NearestNeighbors", "OrdinaryDiffEq", "StaticArrays"]
 path = "E:\\InvariantManifolds"
 uuid = "8e6e46ff-12cc-43ef-8840-ba5cab270546"
-version = "0.1.0"
+version = "0.1.1"
 
 [[deps.InverseFunctions]]
 git-tree-sha1 = "a779299d77cd080bf77b97535acecd73e1c5e5cb"

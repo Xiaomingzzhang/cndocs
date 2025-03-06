@@ -3,11 +3,11 @@
 下面我们将继续以 Lorenz 系统为例, 不同的是我们将对这个系统引入一个人为的非光滑因素. 首先加载需要的包:
 
 ```@setup non_smooth_two
-using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
+using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie, DataInterpolations
 ```
 
 ```@repl non_smooth_two
-using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
+using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie, DataInterpolations
 ```
 
 接着定义在远离原点时归一化的向量场:
@@ -50,7 +50,7 @@ prob = NSVTwoDManifoldProblem(setup, para, amax=0.5, d=0.5, ϵ=0.2, dsmin=1e-3)
 ```
 最后计算流形, 并绘制图像:
 ```@example non_smooth_two
-manifold = growmanifold(prob, disk, 90)
+manifold = growmanifold(prob, disk, 90, interp=LinearInterpolation)
 function manifold_plot(annulus)
     fig = Figure()
     axes = LScene(fig[1, 1], show_axis=false, scenekw=(backgroundcolor=:white, clear=true))
