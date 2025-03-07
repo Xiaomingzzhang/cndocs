@@ -1,3 +1,4 @@
+```@setup smooth_one
 using InvariantManifolds, StaticArrays, OrdinaryDiffEq, CairoMakie
 ```
 # 开始使用: 一维光滑流形

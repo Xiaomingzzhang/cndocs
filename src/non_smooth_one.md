@@ -371,3 +371,4 @@ function manifold_plot(data)
     fig
 end
 manifold_plot(manifold.data)
+```
