@@ -43,7 +43,35 @@ function manifold_plot(annulus)
     end
     fig
 end
-manifold_plot(manifold.data)</code></pre><img src="smooth_two-52eac7d9.png" alt="Example block output"/><h2 id="非线性映射"><a class="docs-heading-anchor" href="#非线性映射">非线性映射</a><a id="非线性映射-1"></a><a class="docs-heading-anchor-permalink" href="#非线性映射" title="Permalink"></a></h2><p>考虑如下的非线性映射:</p><p class="math-container">\[f(X)=\varphi\circ\Lambda\circ\varphi^{-1}(X)\]</p><p>其中 <span>$\varphi(x,y,z)=(x,y,z-\alpha x^2-\beta y^2)$</span> 是一个非线性映射, <span>$\Lambda$</span> 是一个对角矩阵, 其对角元可用来控制映射 <span>$f$</span> 在原点附近的 Jacobi 矩阵. 我们直接给出计算其不变流形的代码:</p><pre><code class="language-julia hljs">using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
+manifold_plot(manifold.data)</code></pre><img src="smooth_two-52eac7d9.png" alt="Example block output"/><p>完整代码:</p><pre><code class="language-julia hljs">using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
+function lorenz(x, p, t)
+    σ, ρ, β = p
+    v = SA[σ*(x[2]-x[1]),
+        ρ*x[1]-x[2]-x[1]*x[3],
+        x[1]*x[2]-β*x[3]
+    ]
+    v / sqrt(0.1 + norm(v)^2)
+end
+function eigenv(p)
+    σ, ρ, β = p
+    [SA[0.0, 0.0, 1.0], SA[-(-1 + σ + sqrt(1 - 2 * σ + 4 * ρ * σ + σ^2))/(2*ρ), 1, 0]]
+end
+para = [10.0, 28.0, 8/3]
+saddle = Saddle(SA[0.0, 0.0, 0.0], eigenv(para), [1.0, 1.0])
+prob = VTwoDManifoldProblem(lorenz, para, d=1.0, amax=1.0, dsmin=1e-3)
+disk = gen_disk(saddle, r=1.0)
+manifold = growmanifold(prob, disk, 200)
+function manifold_plot(annulus)
+    fig = Figure()
+    axes = LScene(fig[1, 1], show_axis=false, scenekw=(backgroundcolor=:white, clear=true))
+    second(x) = x[2]
+    for i in eachindex(annulus)
+        points = annulus[i].u
+        lines!(axes, first.(points), second.(points), last.(points), fxaa=true)
+    end
+    fig
+end
+manifold_plot(manifold.data)</code></pre><h2 id="非线性映射"><a class="docs-heading-anchor" href="#非线性映射">非线性映射</a><a id="非线性映射-1"></a><a class="docs-heading-anchor-permalink" href="#非线性映射" title="Permalink"></a></h2><p>考虑如下的非线性映射:</p><p class="math-container">\[f(X)=\varphi\circ\Lambda\circ\varphi^{-1}(X)\]</p><p>其中 <span>$\varphi(x,y,z)=(x,y,z-\alpha x^2-\beta y^2)$</span> 是一个非线性映射, <span>$\Lambda$</span> 是一个对角矩阵, 其对角元可用来控制映射 <span>$f$</span> 在原点附近的 Jacobi 矩阵. 我们直接给出计算其不变流形的代码:</p><pre><code class="language-julia hljs">using InvariantManifolds, LinearAlgebra, StaticArrays, OrdinaryDiffEq, CairoMakie
 const Λ = SDiagonal(SA[2.1, 6.3, 0.6])
 φ(x, p)= SA[x[1],x[2],x[3]-p[1]*x[1]^2-p[2]*x[2]^2]
 iφ(x, p)= SA[x[1],x[2],x[3]+p[1]*x[1]^2+p[2]*x[2]^2]
@@ -67,4 +95,4 @@ function manifold_plot(data)
     end
     fig
 end
-manifold_plot(manifold.data)</code></pre><img src="smooth_two-fa6e7565.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="smooth_one.html">« 开始使用: 一维光滑流形</a><a class="docs-footer-nextpage" href="non_smooth_one.html">非光滑一维流形 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Thursday 6 March 2025 11:00">Thursday 6 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+manifold_plot(manifold.data)</code></pre><img src="smooth_two-95a54e33.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="smooth_one.html">« 开始使用: 一维光滑流形</a><a class="docs-footer-nextpage" href="non_smooth_one.html">非光滑一维流形 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Friday 7 March 2025 14:53">Friday 7 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
